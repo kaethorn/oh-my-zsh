@@ -9,7 +9,6 @@
 # Powerline theme:
 # https://github.com/carlcarl/powerline-zsh
 #
-local rvm_path="$HOME/.rvm"
 
 # Colors
 local col_sha='yellow'
@@ -23,21 +22,6 @@ local prompt_char="%(#.%{$fg[red]%}.%{$fg[green]%})%#%{$reset_color%}"
 local prompt_user="%(#.%{$fg[red]%}.%{$fg[green]%})%n%{$reset_color%}"
 local prompt_host="%{$fg[magenta]%}%m%{$reset_color%}"
 local prompt_path="%{$fg[blue]%}%~%{$reset_color%}"
-
-function rvm_prompt {
-  ruby_version=$($rvm_path/bin/rvm-prompt s i v p g 2> /dev/null) || return
-  echo -n "rvm: %{$fg[red]%}"
-  echo -n "$ruby_version" | sed \
-  -e "s/ruby-1.8.7-p334/1.8.7/" \
-  -e "s/ruby-1.9.2-p180/1.9.2/" \
-  -e "s/jruby-1.6.2/jruby/" \
-  -e "s/rbx-head/rbx/" \
-  -e "s/ree-1.8.7-2011.03/ree/" \
-  -e "s/maglev-25876/maglev/" \
-  -e "s/macruby-0.10/macruby/" \
-  -e "s/@/%{$reset_color%} %{$fg_bold[yellow]%}/"
-  echo -n "%{$reset_color%}"
-}
 
 function git_prompt {
   sha=$(git rev-parse --short HEAD 2>/dev/null) || return
@@ -86,11 +70,10 @@ preexec() {
   echo -ne "\e[u" # Restore Cursor
 }
 
-local footer_rvm='$(rvm_prompt yellow)'
 local footer_git='$(git_prompt)'
 local footer="$(prompt_footer $footer_git)"
 
-#precmd() { prompt_footer $footer_rvm $footer_git }
+#precmd() { prompt_footer $footer_git }
 
 PROMPT="%{$footer%}${prompt_char} " # %{$footer%}
 RPROMPT="${return_code}"
