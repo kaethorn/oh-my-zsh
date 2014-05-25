@@ -64,6 +64,7 @@ preexec() {
     FOOTER="\e[$[$LINES-$FEET];0f# $FOOT$FOOTER"
     FEET=$[$FEET+1]
   done
+
   echo -ne "\e[s" # Save Cursor
   echo -ne "\e[0;$[$LINES-$FEET]r"
   echo -ne "${(%)FOOTER}"
@@ -73,47 +74,32 @@ preexec() {
 local footer_git='$(git_prompt)'
 local footer="$(prompt_footer $footer_git)"
 
-#precmd() { prompt_footer $footer_git }
-
 PROMPT="%{$footer%}${prompt_char} " # %{$footer%}
+
+# PROMPT2 <S>
+# The secondary prompt, printed when the shell needs more information to complete a command. It is expanded in the same way as PS1. The default is ‘%_> ’, which displays any shell constructs or quotation marks which are currently being processed.
+#PROMPT2="%{$footer%}%{$fg[yellow]%}>%{$reset_color%} "
+
+
+# SPROMPT <S>
+# The prompt used for spelling correction. The sequence ‘%R’ expands to the string which presumably needs spelling correction, and ‘%r’ expands to the proposed correction. All other prompt escapes are also allowed.
+#
+#local sprompt_no="%{$fg[red]%}n%{$reset_color%}o"
+#local sprompt_yes="%{$fg[green]%}y%{$reset_color%}es"
+#local sprompt_edit="%{$fg[yellow]%}e%{$reset_color%}dit"
+#local sprompt_abort="%{$fg[yellow]%}a%{$reset_color%}bort"
+#local sprompt_options="[$sprompt_no $sprompt_yes $sprompt_edit $sprompt_abort]"
+#local sprompt_char="%{$fg[yellow]%}?%{$reset_color%}"
+#local sprompt_from="%{$fg[red]%}%R%{$reset_color%}"
+#local sprompt_to="%{$fg[green]%}%r%{$reset_color%}"
+#SPROMPT="$sprompt_char $sprompt_from -> $sprompt_to $sprompt_options "
+
+
+# RPROMPT <S>
+# This prompt is displayed on the right-hand side of the screen when the primary prompt is being displayed on the left. This does not work if the SINGLE_LINE_ZLE option is set. It is expanded in the same way as PS1.
 RPROMPT="${return_code}"
 
-local sprompt_no="%{$fg[red]%}n%{$reset_color%}o"
-local sprompt_yes="%{$fg[green]%}y%{$reset_color%}es"
-local sprompt_edit="%{$fg[yellow]%}e%{$reset_color%}dit"
-local sprompt_abort="%{$fg[yellow]%}a%{$reset_color%}bort"
-local sprompt_options="[$sprompt_no $sprompt_yes $sprompt_edit $sprompt_abort]"
-local sprompt_char="%{$fg[yellow]%}?%{$reset_color%}"
-local sprompt_from="%{$fg[red]%}%R%{$reset_color%}"
-local sprompt_to="%{$fg[green]%}%r%{$reset_color%}"
-SPROMPT="$sprompt_char $sprompt_from -> $sprompt_to $sprompt_options "
 
-PROMPT2="%{$footer%}%{$fg[yellow]%}>%{$reset_color%} "
-RPROMPT2="%_"
-
-#  1: Directory
-#  2: Symbolic Link
-#  3: Socket
-#  4: Pipe
-#  5: Executable
-#  6: Block Special
-#  7: Character Special
-#  8: Executable w/ setuid
-#  9: Executable w/ setgid
-# 10: Directory Writable to Others, w/  Sticky Bit
-# 11: Directory Writable to Others, w/o Sticky Bit
-
-#  a: Black     A: Bold Black
-#  b: Red       B: Bold Red
-#  c: Green     C: Bold Green
-#  d: Yellow    D: Bold Yellow
-#  e: Blue      E: Bold Blue
-#  f: Magenta   F: Bold Magenta
-#  g: Cyan      G: Bold Cyan
-#  h: White     H: Bold White
-#  x: Default
-
-# Color Config
-# Type            1   3   5   7   9  11
-# Fore/Back      fbfbfbfbfbfbfbfbfbfbfb
-export LSCOLORS='excxfxfxbxdxDxbBbBEeEx'
+# RPROMPT2 <S>
+# This prompt is displayed on the right-hand side of the screen when the secondary prompt is being displayed on the left. This does not work if the SINGLE_LINE_ZLE option is set. It is expanded in the same way as PS2.
+#RPROMPT2="%_"
