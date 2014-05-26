@@ -10,71 +10,51 @@
 # https://github.com/carlcarl/powerline-zsh
 #
 
-# Colors
-local col_sha='yellow'
-local col_branch='blue'
-local col_remote='magenta'
+# POWERLINE
+POWERLINE_COLOR_BG_GRAY=$BG[240]
+POWERLINE_COLOR_BG_LIGHT_GRAY=$BG[240]
+POWERLINE_COLOR_BG_WHITE=$BG[255]
 
-local return_char='↵' # ↳
+POWERLINE_COLOR_FG_GRAY=$FG[240]
+POWERLINE_COLOR_FG_LIGHT_GRAY=$FG[240]
+POWERLINE_COLOR_FG_WHITE=$FG[255]
+
+GIT_DIRTY_COLOR=$FG[133]
+GIT_CLEAN_COLOR=$FG[118]
+GIT_PROMPT_INFO=$FG[012]
+
+ZSH_THEME_GIT_PROMPT_PREFIX=" \u2b60 "
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$GIT_PROMPT_INFO%}"
+ZSH_THEME_GIT_PROMPT_DIRTY=" %{$GIT_DIRTY_COLOR%}✘"
+ZSH_THEME_GIT_PROMPT_CLEAN=" %{$GIT_CLEAN_COLOR%}✔"
+
+ZSH_THEME_GIT_PROMPT_ADDED="%{$FG[082]%}✚%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_MODIFIED="%{$FG[166]%}✹%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DELETED="%{$FG[160]%}✖%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_RENAMED="%{$FG[220]%}➜%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_UNMERGED="%{$FG[082]%}═%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$FG[190]%}✭%{$reset_color%}"
+
+PL_PROMPT='
+'%{$bg[green]%}%{$fg[black]%}' '%n' '%{$reset_color%}%{$fg[green]%}%{$bg[blue]%}$'\u2b80'%{$reset_color%}%{$fg[white]%}%{$bg[blue]%}' '%1~$'$(git_prompt_info) '%{$reset_color%}%{$fg[blue]%}$'\u2b80%{$reset_color%} '
+
+RPROMPT=%{$POWERLINE_COLOR_FG_WHITE%}$' \u2b82%{$reset_color%}%{$POWERLINE_COLOR_BG_WHITE%} %{$POWERLINE_COLOR_FG_GRAY%}%D{%T %d %b}% %(?.. %{$reset_color%}%{$FG[208]%}%{$POWERLINE_COLOR_BG_WHITE%}\u2b82%{$BG[208]%}%{$POWERLINE_COLOR_FG_GRAY%} %?) %{$reset_color%}'
+#
+
+local return_char='↵'
 local return_code="%(?.%{$fg[green]%}$return_char.%{$fg[red]%}%? $return_char)%{$reset_color%}"
 
+# FIXME remove red color (seems to be overwritten).
 local prompt_char="%(#.%{$fg[red]%}.%{$fg[green]%})%#%{$reset_color%}"
-local prompt_user="%(#.%{$fg[red]%}.%{$fg[green]%})%n%{$reset_color%}"
-local prompt_host="%{$fg[magenta]%}%m%{$reset_color%}"
-local prompt_path="%{$fg[blue]%}%~%{$reset_color%}"
-
-function git_prompt {
-  sha=$(git rev-parse --short HEAD 2>/dev/null) || return
-  echo -n "git: "
-  ref=$(git symbolic-ref HEAD 2> /dev/null)
-  if [ -z "$ref" ]; then
-  echo -n "%{$fg[$col_sha]%}$sha%{$reset_color%}"
-  return
-  fi
-  branch=${ref#refs/heads/}
-  echo -n "%{$fg[$col_branch]%}$branch%{$reset_color%} (%{$fg[$col_sha]%}$sha%{$reset_color%})"
-  remote=$(git config --get "branch.$branch.remote") || return
-  echo -n " -> %{$fg[$col_remote]%}$remote%{$reset_color%}"
-}
 
 function prompt_footer {
-  FOOTER="\e[$LINES;0f# ${prompt_user} @ ${prompt_host} : ${prompt_path}"
-  FEET=1
-  for FOOT ($@); do
-    if [ -z "$FOOT" ]; then
-      continue;
-    fi
-    FOOTER="\e[$[$LINES-$FEET];0f# $FOOT$FOOTER"
-    FEET=$[$FEET+1]
-  done
-  echo -ne "\e[s" # Save Cursor
-  echo -ne "\e[0;$[$LINES-$FEET]r"
-  echo -ne "$FOOTER"
-  echo -ne "\e[u" # Restore Cursor
+  echo -ne "\e[$LINES;0f$PL_PROMPT"
+  echo -ne "\e[$[LINES-1];0f"
 }
 
-preexec() {
-  feet=("$(git_prompt)")
-  FOOTER="\e[$LINES;0f# ${prompt_user} @ ${prompt_host} : ${prompt_path}"
-  FEET=1
-  for FOOT ($feet); do
-    if [ -z "$FOOT" ]; then
-      continue;
-    fi
-    FOOTER="\e[$[$LINES-$FEET];0f# $FOOT$FOOTER"
-    FEET=$[$FEET+1]
-  done
+local footer="$(prompt_footer)"
 
-  echo -ne "\e[s" # Save Cursor
-  echo -ne "\e[0;$[$LINES-$FEET]r"
-  echo -ne "${(%)FOOTER}"
-  echo -ne "\e[u" # Restore Cursor
-}
-
-local footer_git='$(git_prompt)'
-local footer="$(prompt_footer $footer_git)"
-
-PROMPT="%{$footer%}${prompt_char} " # %{$footer%}
+PROMPT="%{$footer%}${prompt_char} "
 
 # PROMPT2 <S>
 # The secondary prompt, printed when the shell needs more information to complete a command. It is expanded in the same way as PS1. The default is ‘%_> ’, which displays any shell constructs or quotation marks which are currently being processed.
