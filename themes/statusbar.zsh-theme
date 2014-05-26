@@ -9,6 +9,8 @@
 # Powerline theme:
 # https://github.com/carlcarl/powerline-zsh
 #
+# TODO:
+# * Place the bar at the bottom when the window size changes
 
 # POWERLINE
 POWERLINE_COLOR_BG_GRAY=$BG[240]
@@ -38,9 +40,6 @@ ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$FG[190]%}✭%{$reset_color%}"
 PL_PROMPT='
 '%{$bg[green]%}%{$fg[black]%}' '%n' '%{$reset_color%}%{$fg[green]%}%{$bg[blue]%}$'\u2b80'%{$reset_color%}%{$fg[white]%}%{$bg[blue]%}' '%1~$'$(git_prompt_info) '%{$reset_color%}%{$fg[blue]%}$'\u2b80%{$reset_color%} '
 
-RPROMPT=%{$POWERLINE_COLOR_FG_WHITE%}$' \u2b82%{$reset_color%}%{$POWERLINE_COLOR_BG_WHITE%} %{$POWERLINE_COLOR_FG_GRAY%}%D{%T %d %b}% %(?.. %{$reset_color%}%{$FG[208]%}%{$POWERLINE_COLOR_BG_WHITE%}\u2b82%{$BG[208]%}%{$POWERLINE_COLOR_FG_GRAY%} %?) %{$reset_color%}'
-#
-
 local return_char='↵'
 local return_code="%(?.%{$fg[green]%}$return_char.%{$fg[red]%}%? $return_char)%{$reset_color%}"
 
@@ -56,30 +55,4 @@ local footer="$(prompt_footer)"
 
 PROMPT="%{$footer%}${prompt_char} "
 
-# PROMPT2 <S>
-# The secondary prompt, printed when the shell needs more information to complete a command. It is expanded in the same way as PS1. The default is ‘%_> ’, which displays any shell constructs or quotation marks which are currently being processed.
-#PROMPT2="%{$footer%}%{$fg[yellow]%}>%{$reset_color%} "
-
-
-# SPROMPT <S>
-# The prompt used for spelling correction. The sequence ‘%R’ expands to the string which presumably needs spelling correction, and ‘%r’ expands to the proposed correction. All other prompt escapes are also allowed.
-#
-#local sprompt_no="%{$fg[red]%}n%{$reset_color%}o"
-#local sprompt_yes="%{$fg[green]%}y%{$reset_color%}es"
-#local sprompt_edit="%{$fg[yellow]%}e%{$reset_color%}dit"
-#local sprompt_abort="%{$fg[yellow]%}a%{$reset_color%}bort"
-#local sprompt_options="[$sprompt_no $sprompt_yes $sprompt_edit $sprompt_abort]"
-#local sprompt_char="%{$fg[yellow]%}?%{$reset_color%}"
-#local sprompt_from="%{$fg[red]%}%R%{$reset_color%}"
-#local sprompt_to="%{$fg[green]%}%r%{$reset_color%}"
-#SPROMPT="$sprompt_char $sprompt_from -> $sprompt_to $sprompt_options "
-
-
-# RPROMPT <S>
-# This prompt is displayed on the right-hand side of the screen when the primary prompt is being displayed on the left. This does not work if the SINGLE_LINE_ZLE option is set. It is expanded in the same way as PS1.
-RPROMPT="${return_code}"
-
-
-# RPROMPT2 <S>
-# This prompt is displayed on the right-hand side of the screen when the secondary prompt is being displayed on the left. This does not work if the SINGLE_LINE_ZLE option is set. It is expanded in the same way as PS2.
-#RPROMPT2="%_"
+RPROMPT=%{$POWERLINE_COLOR_FG_WHITE%}$' \u2b82%{$reset_color%}%{$POWERLINE_COLOR_BG_WHITE%} %{$POWERLINE_COLOR_FG_GRAY%}%D{%T %d %b}% %(?.. %{$reset_color%}%{$FG[208]%}%{$POWERLINE_COLOR_BG_WHITE%}\u2b82%{$BG[208]%}%{$POWERLINE_COLOR_FG_GRAY%} %?) %{$reset_color%}'
