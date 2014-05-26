@@ -11,6 +11,7 @@
 #
 # TODO:
 # * Place the bar at the bottom when the window size changes
+# * Add hostname to the status bar
 
 # POWERLINE
 POWERLINE_COLOR_BG_GRAY=$BG[240]
@@ -38,13 +39,7 @@ ZSH_THEME_GIT_PROMPT_UNMERGED="%{$FG[082]%}═%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$FG[190]%}✭%{$reset_color%}"
 
 PL_PROMPT='
-'%{$bg[green]%}%{$fg[black]%}' '%n' '%{$reset_color%}%{$fg[green]%}%{$bg[blue]%}$'\u2b80'%{$reset_color%}%{$fg[white]%}%{$bg[blue]%}' '%1~$'$(git_prompt_info) '%{$reset_color%}%{$fg[blue]%}$'\u2b80%{$reset_color%} '
-
-local return_char='↵'
-local return_code="%(?.%{$fg[green]%}$return_char.%{$fg[red]%}%? $return_char)%{$reset_color%}"
-
-# FIXME remove red color (seems to be overwritten).
-local prompt_char="%(#.%{$fg[red]%}.%{$fg[green]%})%#%{$reset_color%}"
+'%{$bg[green]%}%{$fg[black]%}' '%n' '%{$reset_color%}%{$fg[green]%}%{$bg[blue]%}$'\u2b80'%{$reset_color%}%{$fg[white]%}%{$bg[blue]%}' '%1~$'$(git_prompt_info) '%{$reset_color%}%{$fg[blue]%}$'\u2b80%{$reset_color%}'
 
 function prompt_footer {
   echo -ne "\e[$LINES;0f$PL_PROMPT"
@@ -53,6 +48,7 @@ function prompt_footer {
 
 local footer="$(prompt_footer)"
 
-PROMPT="%{$footer%}${prompt_char} "
+PROMPT='
+'%{$footer%}%{$fg[blue]%}$'\u2b80%{$reset_color%} '
 
 RPROMPT=%{$POWERLINE_COLOR_FG_WHITE%}$' \u2b82%{$reset_color%}%{$POWERLINE_COLOR_BG_WHITE%} %{$POWERLINE_COLOR_FG_GRAY%}%D{%T %d %b}% %(?.. %{$reset_color%}%{$FG[208]%}%{$POWERLINE_COLOR_BG_WHITE%}\u2b82%{$BG[208]%}%{$POWERLINE_COLOR_FG_GRAY%} %?) %{$reset_color%}'
