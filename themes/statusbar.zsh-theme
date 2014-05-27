@@ -11,7 +11,6 @@
 #
 # TODO:
 # * Place the bar at the bottom when the window size changes
-# * Add hostname to the status bar
 
 # POWERLINE
 POWERLINE_COLOR_BG_GRAY=$BG[240]
@@ -39,7 +38,7 @@ ZSH_THEME_GIT_PROMPT_UNMERGED="%{$FG[082]%}═%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$FG[190]%}✭%{$reset_color%}"
 
 PL_PROMPT='
-'%{$bg[green]%}%{$fg[black]%}' '%n' '%{$reset_color%}%{$fg[green]%}%{$bg[blue]%}$'\u2b80'%{$reset_color%}%{$fg[white]%}%{$bg[blue]%}' '%1~$'$(git_prompt_info) '%{$reset_color%}%{$fg[blue]%}$'\u2b80%{$reset_color%}'
+'%{$bg[green]%}%{$fg[black]%}' '%n' '%{$fg[white]%}'\u2b81 '%M' '%{$reset_color%}%{$fg[green]%}%{$bg[blue]%}$'\u2b80'%{$reset_color%}%{$fg[white]%}%{$bg[blue]%}' '%1~$'$(git_prompt_info) '%{$reset_color%}%{$fg[blue]%}$'\u2b80%{$reset_color%}'
 
 function prompt_footer {
   echo -ne "\e[$LINES;0f$PL_PROMPT"
