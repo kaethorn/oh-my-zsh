@@ -1,0 +1,1 @@
+/home/falko/.zsh/airline-theme/airline.zsh-theme
