@@ -20,7 +20,7 @@
 # in the current directory.
 #
 function $$gulp_completion {
-    compls="$(grep -Eo "gulp.task\((['\"](([a-zA-Z0-9]|-)*)['\"],)" gulpfile.js 2>/dev/null | grep -Eo "['\"](([a-zA-Z0-9]|-)*)['\"]" | sed s/"['\"]"//g | sort)"
+    compls=$(gulp --tasks-simple 2>/dev/null)
 
     completions=(${=compls})
     compadd -- $completions
